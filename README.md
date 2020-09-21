@@ -38,9 +38,32 @@ Si estas en linux tendras que darle permisos con sudo:
 ```
 $ sudo docker-compose up
 ```
-
 Una vez hecho esto, docker se encargara de levantar los servicios y crear la imanges correspondientes necesaria para la aplicacion.
 
+## Migracion de la data
+Para migrar la data de la base de datos debemos acceder al contenedor de cada servicio.
+
+Primero debemos saber el id de contenedor al cual queremos accceder, y lo logramos con el siguiente comando:
+
+```
+  $ docker ps
+```
+Con este comando veremos los contenedores que estan corriendo. Localizamos el container ID y luego procedemos a usar el siguiente comando
+```
+  $ docker exec -it "CONTAINERID" bash
+```
+
+Luego,
+
+```
+  $ yarn db:migrate
+```
+
+para salir de la terminal
+
+```
+  ctrk + D
+```
 ## Ejecutando consultas ⚙️
 
 Para empezar a realizar consultas desde el gateway creado con graphQL, solo debes acceder a la ruta en tu navegador 
@@ -96,11 +119,9 @@ Todas las tablas estan encadenadas segun el diagrama de relacion/entidad. Asi qu
 
 ## Despliegue 📦
 
-_Agrega notas adicionales sobre como hacer deploy_
+Vale destacar que la app no esta optimizada para despliegue a production, esta completamente hecho con propositos de ejercicio, faltan varios detalles por arreglar. Es todo el codigo que he hecho por el momento.
 
 ## Construido con 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
 
 * [ExpressJS](http://expressjs.com/) - El framework web usado
 * [GraphQL](hhttps://graphql.org/) - Manejador de la data
