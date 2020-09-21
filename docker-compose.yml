@@ -1,0 +1,109 @@
+version: "3"
+services:
+    api-gateway-service:
+        build: "./api-gateway"
+        depends_on:
+            - products-service
+            - carts-service
+            - orders-service
+            - payments-service
+            - users-service
+        ports:
+            - 7000:7000
+        volumes:
+            - ./api-gateway:/opt/app
+
+    products-service:
+        build: "./products-service"
+        depends_on:
+            - products-service-db
+        environment:
+            - DB_URI=mysql://root:password@products-service-db/db?charset=UTF8
+        ports:
+            - 7100:7100
+        volumes:
+            - ./products-service:/opt/app
+
+    products-service-db:
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=db
+        image: mysql:5.7.20
+        ports:
+            - 0.0.0.0:7200:3306
+
+    carts-service:
+        build: "./carts-service"
+        depends_on:
+            - carts-service-db
+        environment:
+            - DB_URI=mysql://root:password@carts-service-db/db?charset=UTF8
+        ports:
+            - 7101:7101
+        volumes:
+            - ./carts-service:/opt/app
+
+    carts-service-db:
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=db
+        image: mysql:5.7.20
+        ports:
+            - 0.0.0.0:7201:3306
+
+    orders-service:
+        build: "./orders-service"
+        depends_on:
+            - orders-service-db
+        environment:
+            - DB_URI=mysql://root:password@orders-service-db/db?charset=UTF8
+        ports:
+            - 7102:7102
+        volumes:
+            - ./orders-service:/opt/app
+
+    orders-service-db:
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=db
+        image: mysql:5.7.20
+        ports:
+            - 0.0.0.0:7202:3306
+
+    payments-service:
+        build: "./payments-service"
+        depends_on:
+            - payments-service-db
+        environment:
+            - DB_URI=mysql://root:password@payments-service-db/db?charset=UTF8
+        ports:
+            - 7103:7103
+        volumes:
+            - ./payments-service:/opt/app
+
+    payments-service-db:
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=db
+        image: mysql:5.7.20
+        ports:
+            - 0.0.0.0:7203:3306
+
+    users-service:
+        build: "./users-service"
+        depends_on:
+            - users-service-db
+        environment:
+            - DB_URI=mysql://root:password@users-service-db/db?charset=UTF8
+        ports:
+            - 7104:7104
+        volumes:
+            - ./users-service:/opt/app
+
+    users-service-db:
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=db
+        image: mysql:5.7.20
+        ports:
+            - 0.0.0.0:7204:3306
